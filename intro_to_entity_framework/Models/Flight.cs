@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace intro_to_entity_framework
+namespace intro_to_entity_framework.Models
 {
     internal class Flight
     {

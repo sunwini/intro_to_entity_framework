@@ -1,4 +1,6 @@
-﻿namespace intro_to_entity_framework
+﻿using intro_to_entity_framework.Models;
+
+namespace intro_to_entity_framework
 {
     internal class Program
     {

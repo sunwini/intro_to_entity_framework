@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace intro_to_entity_framework
+namespace intro_to_entity_framework.Models
 {
     internal class Client
     {
