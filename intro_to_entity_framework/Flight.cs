@@ -7,12 +7,8 @@ namespace intro_to_entity_framework
 {
     internal class Flight
     {
-        [Key]//set primary key
         public int Number { get; set; }
-
-        [MaxLength(100)]
         public string ArrivalCity { get; set; }
-        [MaxLength(100)]
         public string DepartureCity { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }

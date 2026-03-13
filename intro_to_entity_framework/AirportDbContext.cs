@@ -30,6 +30,50 @@ namespace intro_to_entity_framework
         {
             base.OnModelCreating(modelBuilder);
 
+            //validation data - fluent api 
+
+            modelBuilder.Entity<Airplane>().
+                Property(a => a.Model).
+                IsRequired().
+                HasMaxLength(100);
+
+
+            modelBuilder.Entity<Client>().
+                ToTable("Passangers");
+            modelBuilder.Entity<Client>().
+                Property(c => c.Name).
+                IsRequired().
+                HasMaxLength(100).
+                HasColumnName("Firstname");
+            modelBuilder.Entity<Client>().
+                Property(c => c.Email).
+                HasMaxLength(100).
+                IsRequired();
+
+
+            modelBuilder.Entity<Flight>().
+                HasKey(f => f.Number);
+            modelBuilder.Entity<Flight>().
+                Property(f => f.ArrivalCity).
+                HasMaxLength(100);
+            modelBuilder.Entity<Flight>().
+                Property(f => f.DepartureCity).
+                HasMaxLength(100);
+
+
+            modelBuilder.Entity<Flight>().
+                HasOne(f => f.Airplane).
+                WithMany(a => a.Flights).
+                HasForeignKey(f => f.AirplaneId);
+
+
+            modelBuilder.Entity<Client>().
+                HasMany(c => c.Flights).
+                WithMany(f => f.Clients);
+
+
+
+
             //Initialization
             modelBuilder.Entity<Airplane>().HasData(new Airplane[]
             {

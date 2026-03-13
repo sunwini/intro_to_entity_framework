@@ -9,9 +9,7 @@ namespace intro_to_entity_framework
     {
         public int Id { get; set; }
 
-        [Required, MaxLength(100)]
         public string Model { get; set; }
-        //Relationship type : one to many (1...*)
 
         public int MaxCountPassengers { get; set; }
 
