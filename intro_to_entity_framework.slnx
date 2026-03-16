@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="06_dataAccessAirport2/06_dataAccessAirport2.csproj" Id="1619c463-84eb-4363-8e9c-602be27c79f9" />
+  <Project Path="07_AirportUI/07_AirportUI.csproj" Id="2a50124c-bc7c-4f3b-9094-9ddb7473c203" />
   <Project Path="intro_to_entity_framework/intro_to_entity_framework.csproj" />
 </Solution>

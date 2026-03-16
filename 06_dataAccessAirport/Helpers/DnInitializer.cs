@@ -1,36 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using intro_to_entity_framework.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace intro_to_entity_framework
+namespace intro_to_entity_framework.Helpers
 {
-    internal class AirportDbContext : DbContext
+    internal static class DnInitializer
     {
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Flight> Flights { get; set; }
-        public DbSet<Airplane> Airplanes { get; set; }
-        public AirportDbContext()
+        public static void SeedAirplanes(this ModelBuilder modelBuilder)
         {
-            //this.Database.EnsureDeleted();
-            //this.Database.EnsureCreated();
-        }
-
-        //connection
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AirportDb;Integrated Security=True;Connect Timeout=5;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=5");
-        }
-        //work with database
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            //Initialization
             modelBuilder.Entity<Airplane>().HasData(new Airplane[]
             {
                 new Airplane(){ Id = 1, Model = "AN747"},
@@ -39,6 +18,10 @@ namespace intro_to_entity_framework
                 new Airplane(){ Id = 4, Model = "AN744"},
                 new Airplane(){ Id = 5, Model = "AN743"},
             });
+        }
+
+        public static void SeedClients(this ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Client>().HasData(new Client[]
            {
                new Client(){ Id = 1,Name = "Vova", Email = "vova@gmail.com", Birthdate = new DateTime(1995,5,14) },
@@ -47,6 +30,10 @@ namespace intro_to_entity_framework
                new Client(){ Id = 4,Name = "Sasha", Email = "sasha@gmail.com", Birthdate = new DateTime(2003,5,14) },
                new Client(){ Id = 5,Name = "Dima", Email = "dima@gmail.com", Birthdate = new DateTime(2005,5,14) }
            });
+        }
+
+        public static void SeedFlights(this ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Flight>().HasData(new Flight[]
           {
                new Flight(){ Number = 1, ArrivalCity= "Kyiv", DepartureCity= "Lviv", ArrivalTime = new DateTime(2026,3,10),

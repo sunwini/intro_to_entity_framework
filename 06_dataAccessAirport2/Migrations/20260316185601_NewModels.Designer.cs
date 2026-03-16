@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using intro_to_entity_framework;
 
@@ -11,13 +12,15 @@ using intro_to_entity_framework;
 namespace intro_to_entity_framework.Migrations
 {
     [DbContext(typeof(AirportDbContext))]
-    partial class AirportDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260316185601_NewModels")]
+    partial class NewModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.4")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -37,13 +40,129 @@ namespace intro_to_entity_framework.Migrations
                     b.ToTable("ClientFlight");
                 });
 
-            modelBuilder.Entity("intro_to_entity_framework.Airplane", b =>
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.AirplaneType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("AirplaneID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TYPE")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("AirplaneTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            AirplaneID = 1,
+                            TYPE = "Passanger plane"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            AirplaneID = 2,
+                            TYPE = "Cargo"
+                        });
+                });
+
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.City", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CountryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NAME")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
+
+                    b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CountryID = 1,
+                            NAME = "Kyiv"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CountryID = 1,
+                            NAME = "Lviv"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CountryID = 1,
+                            NAME = "Uzhorod"
+                        });
+                });
+
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.Country", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("NAME")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            NAME = "Ukraine"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            NAME = "Poland"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            NAME = "Germany"
+                        });
+                });
+
+            modelBuilder.Entity("intro_to_entity_framework.Models.Airplane", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AirplaneTypeID")
+                        .HasColumnType("int");
 
                     b.Property<int>("MaxCountPassengers")
                         .HasColumnType("int");
@@ -55,42 +174,49 @@ namespace intro_to_entity_framework.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AirplaneTypeID");
+
                     b.ToTable("Airplanes");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            AirplaneTypeID = 1,
                             MaxCountPassengers = 0,
                             Model = "AN747"
                         },
                         new
                         {
                             Id = 2,
+                            AirplaneTypeID = 1,
                             MaxCountPassengers = 0,
                             Model = "AN746"
                         },
                         new
                         {
                             Id = 3,
+                            AirplaneTypeID = 1,
                             MaxCountPassengers = 0,
                             Model = "AN746"
                         },
                         new
                         {
                             Id = 4,
+                            AirplaneTypeID = 2,
                             MaxCountPassengers = 0,
                             Model = "AN744"
                         },
                         new
                         {
                             Id = 5,
+                            AirplaneTypeID = 1,
                             MaxCountPassengers = 0,
                             Model = "AN743"
                         });
                 });
 
-            modelBuilder.Entity("intro_to_entity_framework.Client", b =>
+            modelBuilder.Entity("intro_to_entity_framework.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,14 +236,14 @@ namespace intro_to_entity_framework.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnName("FirstName");
+                        .HasColumnName("Firstname");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Passangers");
+                    b.ToTable("Passangers", (string)null);
 
                     b.HasData(
                         new
@@ -162,7 +288,7 @@ namespace intro_to_entity_framework.Migrations
                         });
                 });
 
-            modelBuilder.Entity("intro_to_entity_framework.Flight", b =>
+            modelBuilder.Entity("intro_to_entity_framework.Models.Flight", b =>
                 {
                     b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
@@ -181,6 +307,9 @@ namespace intro_to_entity_framework.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CityID")
+                        .HasColumnType("int");
+
                     b.Property<string>("DepartureCity")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -193,6 +322,8 @@ namespace intro_to_entity_framework.Migrations
 
                     b.HasIndex("AirplaneId");
 
+                    b.HasIndex("CityID");
+
                     b.ToTable("Flights");
 
                     b.HasData(
@@ -202,6 +333,7 @@ namespace intro_to_entity_framework.Migrations
                             AirplaneId = 1,
                             ArrivalCity = "Kyiv",
                             ArrivalTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CityID = 2,
                             DepartureCity = "Lviv",
                             DepartureTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -211,6 +343,7 @@ namespace intro_to_entity_framework.Migrations
                             AirplaneId = 1,
                             ArrivalCity = "Kyiv",
                             ArrivalTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CityID = 2,
                             DepartureCity = "Praga",
                             DepartureTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -220,6 +353,7 @@ namespace intro_to_entity_framework.Migrations
                             AirplaneId = 1,
                             ArrivalCity = "Kyiv",
                             ArrivalTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CityID = 2,
                             DepartureCity = "Warshaw",
                             DepartureTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -229,6 +363,7 @@ namespace intro_to_entity_framework.Migrations
                             AirplaneId = 1,
                             ArrivalCity = "Kyiv",
                             ArrivalTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CityID = 2,
                             DepartureCity = "Kharkiv",
                             DepartureTime = new DateTime(2026, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -236,31 +371,76 @@ namespace intro_to_entity_framework.Migrations
 
             modelBuilder.Entity("ClientFlight", b =>
                 {
-                    b.HasOne("intro_to_entity_framework.Client", null)
+                    b.HasOne("intro_to_entity_framework.Models.Client", null)
                         .WithMany()
                         .HasForeignKey("ClientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("intro_to_entity_framework.Flight", null)
+                    b.HasOne("intro_to_entity_framework.Models.Flight", null)
                         .WithMany()
                         .HasForeignKey("FlightsNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("intro_to_entity_framework.Flight", b =>
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.City", b =>
                 {
-                    b.HasOne("intro_to_entity_framework.Airplane", "Airplane")
+                    b.HasOne("_06_dataAccessAirport2.Models.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("intro_to_entity_framework.Models.Airplane", b =>
+                {
+                    b.HasOne("_06_dataAccessAirport2.Models.AirplaneType", "AirplaneType")
+                        .WithMany("Airplanes")
+                        .HasForeignKey("AirplaneTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AirplaneType");
+                });
+
+            modelBuilder.Entity("intro_to_entity_framework.Models.Flight", b =>
+                {
+                    b.HasOne("intro_to_entity_framework.Models.Airplane", "Airplane")
                         .WithMany("Flights")
                         .HasForeignKey("AirplaneId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("_06_dataAccessAirport2.Models.City", "City")
+                        .WithMany("Flights")
+                        .HasForeignKey("CityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Airplane");
+
+                    b.Navigation("City");
                 });
 
-            modelBuilder.Entity("intro_to_entity_framework.Airplane", b =>
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.AirplaneType", b =>
+                {
+                    b.Navigation("Airplanes");
+                });
+
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.City", b =>
+                {
+                    b.Navigation("Flights");
+                });
+
+            modelBuilder.Entity("_06_dataAccessAirport2.Models.Country", b =>
+                {
+                    b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("intro_to_entity_framework.Models.Airplane", b =>
                 {
                     b.Navigation("Flights");
                 });
